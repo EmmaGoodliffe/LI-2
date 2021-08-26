@@ -18,20 +18,13 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "import",
-    "prettier",
-    "@typescript-eslint",
-    "ts-exports"
-  ],
+  "plugins": ["import", "prettier", "@typescript-eslint", "ts-exports"],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": [
       "error",
       {
-        "allow": [
-          "arrowFunctions"
-        ]
+        "allow": ["arrowFunctions"]
       }
     ],
     "import/order": [
@@ -42,10 +35,7 @@
           "order": "asc"
         },
         "groups": [
-          [
-            "builtin",
-            "external"
-          ],
+          ["builtin", "external"],
           "internal",
           "parent",
           "sibling",
