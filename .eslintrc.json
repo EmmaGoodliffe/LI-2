@@ -9,13 +9,14 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript"
   ],
-  "ignorePatterns": "*.config.js",
+  "ignorePatterns": ["./*.config.js", "public/build/*.js"],
+  "overrides": [{ "files": "./scripts/*.ts", "env": { "node": true } }],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "impliedStrict": true
     },
-    "project": "tsconfig.json",
+    "project": "./tsconfig.json",
     "sourceType": "module"
   },
   "plugins": ["import", "prettier", "@typescript-eslint", "ts-exports"],
