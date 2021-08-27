@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-bg text-w;
+}
+
+h1 {
+  @apply text-3xl m-4;
+}
+
+h2 {
+  @apply flex items-center justify-center text-xl;
+}
+
+input[type="text"],
+textarea {
+  @apply border-b-2 border-w mt-6 focus:outline-none focus:ring-2 focus:ring-p rounded-sm bg-s;
+}
+
+input[type="text"] {
+  @apply sm:w-1/2 max-w-md text-center text-lg;
+}
+
+textarea {
+  @apply sm:w-5/6 mx-auto px-1 py-1 sm:px-4 sm:py-4;
+}
+
 .btn {
-  @apply px-4 py-2 bg-cyan-500 text-white rounded font-bold;
+  @apply my-4 px-4 py-2 bg-p rounded;
+}
+
+.btn:disabled {
+  @apply bg-disabled-p text-disabled-s cursor-not-allowed;
 }

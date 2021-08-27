@@ -1,39 +1,14 @@
 <script lang="typescript">
-  export let auth: { clientId: string };
-  export let data: {
-    names: {
-      song: string;
-      artist: string;
-    }[];
-    ids: string[];
-  };
+  import { onMount } from "svelte";
+  import Bar from "./Bar.svelte";
 
+  let clientId = "5dfa309106f847819f19d5af2dd774cb";
   let authed = false;
-  let status = "";
-
-  const redirectUri = "http://localhost:5500/public/index.html";
-  const authUrl =
-    "https://accounts.spotify.com/authorize?" +
-    [
-      `client_id=${auth.clientId}`,
-      "response_type=token",
-      `redirect_uri=${encodeURI(redirectUri)}`,
-      "scope=playlist-read-private playlist-modify-public playlist-modify-private",
-    ].join("&");
-
-  const toBase64 = (x: string) => Buffer.from(x).toString("base64");
-
-  const authClick = () => {
-    window.location.href = authUrl;
-  };
-
-  const paramsToObj = (params: URLSearchParams) => {
-    const result: Record<string, string> = {};
-    params.forEach((value, key) => {
-      result[key] = value;
-    });
-    return result;
-  };
+  let queriesText = ["Rick Astley Never Gonna Give You Up", "..."].join("\n");
+  let tracksText = "";
+  let tracksProgress = 0;
+  let playlistName = "Test";
+  let addProgress = 0;
 
   interface Playlists {
     items: { name: string; id: string }[];
@@ -44,6 +19,17 @@
       items: { id: string }[];
     };
   }
+
+  const delay = (ms: number) =>
+    new Promise<void>(resolve => setTimeout(() => resolve(), ms));
+
+  const paramsToObj = (params: URLSearchParams) => {
+    const result: Record<string, string> = {};
+    params.forEach((value, key) => {
+      result[key] = value;
+    });
+    return result;
+  };
 
   const api = async <T extends Playlists | Search>(
     endPoint: string,
@@ -74,15 +60,6 @@
     return await response.json();
   };
 
-  const copy = (text: string) => {
-    const el = document.createElement("textarea");
-    el.value = text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-  };
-
   function clump<T>(arr: T[], size: number) {
     const result: T[][] = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -91,85 +68,121 @@
     return result;
   }
 
-  if (window.location.href.includes("#")) {
-    authed = true;
-  }
+  const authClick = () => {
+    const redirectUri = "http://localhost:5500/public/index.html";
+    const authUrl =
+      "https://accounts.spotify.com/authorize?" +
+      [
+        `client_id=${clientId}`,
+        "response_type=token",
+        `redirect_uri=${encodeURI(redirectUri)}`,
+        "scope=playlist-read-private playlist-modify-public playlist-modify-private",
+      ].join("&");
+    window.location.href = authUrl;
+  };
 
   const tracksClick = () => {
     const tracksRun = async () => {
-      status = "fetching";
       const authResult = window.location.href.replace(/.*#/, "");
       const token = paramsToObj(new URLSearchParams(authResult)).access_token;
-      const queries = data.names.map(s =>
-        `${s.song} ${s.artist.replace(/&.*/g, "").replace(/\sx\s.*/, "")}`
-          .replace(/\(.*?\)/g, "")
-          .replace(/\s\s/g, " ")
-          .trim(),
-      );
-      const searchUrls = queries.map(q =>
-        encodeURI(`search?q=${q}&type=track`),
-      );
+      const searchUrls = queriesText
+        .split("\n")
+        .map(q => encodeURI(`search?q=${q}&type=track`));
       const clumpedSearchUrls = clump(searchUrls, 100);
-      let result = "";
+      tracksText = "";
+      tracksProgress = 0.01;
       for (const i in clumpedSearchUrls) {
         const searchUrlClump = clumpedSearchUrls[i];
         const tracks = await Promise.all(
-          searchUrlClump.map(s =>
-            // TODO: Delete `Jolen` thing
-            s.includes("Jolen")
-              ? {
-                  tracks: { items: [{ id: "1nuDf5WpelCulE091ZK8nT" }] },
-                }
-              : api<Search>(s, token),
-          ),
+          searchUrlClump.map(s => api<Search>(s, token)),
         );
         const trackIds = tracks.map((t, i) => {
           const { items } = t.tracks;
           if (items.length) return items[0].id;
-          throw new Error(`couldn't find ${searchUrlClump[i]}`);
+          throw new Error(`Couldn't find ${searchUrlClump[i]}`);
         });
-        result += trackIds.join(",");
+        tracksText += trackIds.join("\n") + "\n";
+        tracksProgress = (parseInt(i) + 1) / clumpedSearchUrls.length;
       }
-      copy(result);
-      status = "copied";
     };
     tracksRun().catch(err => {
-      status = err;
       console.error(err);
     });
   };
 
   const addClick = () => {
     const addRun = async () => {
-      status = "fetching";
       const authResult = window.location.href.replace(/.*#/, "");
       const token = paramsToObj(new URLSearchParams(authResult)).access_token;
       const myPlaylists = await api<Playlists>("me/playlists", token);
-      const playlistId = myPlaylists.items.filter(p => p.name === "LI-2")[0].id;
-      const clumps = clump(
-        data.ids.map(id => `spotify:track:${id}`),
-        50,
-      );
+      const playlistId = myPlaylists.items.filter(
+        p => p.name === playlistName,
+      )[0].id;
+      const clumps = clump(tracksText.split("\n"), 100);
+      addProgress = 0.01;
       for (const i in clumps) {
-        const uris = clumps[i];
+        const ids = clumps[i].filter(id => id.trim().length);
         await apiBody(`playlists/${playlistId}/tracks`, token, {
-          uris,
+          uris: ids.map(id => `spotify:track:${id.trim()}`),
         });
-        status = `${i} of ${clumps.length - 1}`;
+        addProgress = (parseInt(i) + 1) / clumps.length;
       }
     };
     addRun().catch(err => {
-      status = err;
       console.error(err);
     });
   };
+
+  onMount(async () => {
+    if (window.location.href.includes("#")) {
+      await delay(1);
+      authed = true;
+    }
+  });
 </script>
 
-<main>
-  <h1>LI-2</h1>
-  <div>Authed: {authed}</div>
-  <div>Status: {status}</div>
-  <button on:click={authClick}>Auth</button>
-  <button on:click={tracksClick}>Tracks</button>
-  <button on:click={addClick}>Add</button>
+<main class="text-center w-full">
+  <h1>Playlist generator</h1>
+  <ul>
+    <li>
+      <h2>Authentication</h2>
+      <Bar width={authed ? 1 : 0} />
+      <input type="text" placeholder="Client ID" bind:value={clientId} />
+      <br />
+      <button class="btn" on:click={authClick}>Auth</button>
+    </li>
+    <li>
+      <h2>Tracks</h2>
+      <Bar width={tracksProgress} />
+      <div class="flex justify-evenly">
+        <div class="flex-1">
+          <textarea rows="10" bind:value={queriesText} />
+        </div>
+        <div class="flex-1">
+          <textarea rows="10" bind:value={tracksText} />
+        </div>
+      </div>
+      <button
+        class="btn"
+        on:click={tracksClick}
+        disabled={!authed || (0 < tracksProgress && tracksProgress < 1)}
+        >Tracks</button
+      >
+    </li>
+    <li>
+      <h2>Add</h2>
+      <Bar width={addProgress} />
+      <input
+        type="text"
+        placeholder="Playlist name"
+        bind:value={playlistName}
+      />
+      <br />
+      <button
+        class="btn"
+        on:click={addClick}
+        disabled={!authed || (0 < addProgress && addProgress < 1)}>Add</button
+      >
+    </li>
+  </ul>
 </main>
