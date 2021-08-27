@@ -9,7 +9,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript"
   ],
-  "ignorePatterns": ["./*.config.js", "public/build/*.js"],
+  "ignorePatterns": ["*.config.js", "public/build/*.js"],
   "overrides": [{ "files": "./scripts/*.ts", "env": { "node": true } }],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

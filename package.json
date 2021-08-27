@@ -6,8 +6,7 @@
   "scripts": {
     "build:css": "tailwindcss-cli build -i src/index.css -o public/index.css",
     "build:svelte": "rollup -c",
-    "build:ts": "tsc",
-    "build": "npm run build:css && npm run build:svelte && npm run build:ts",
+    "build": "npm run build:css && npm run build:svelte",
     "dev:css": "npm run build:css -- -w",
     "dev:svelte": "rollup -c -w",
     "dev": "npm run dev:svelte",
