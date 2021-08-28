@@ -1,6 +1,7 @@
 {
   "env": {
-    "es2017": true
+    "es2017": true,
+    "browser": true
   },
   "extends": [
     "eslint:recommended",
@@ -10,16 +11,17 @@
     "plugin:import/typescript"
   ],
   "ignorePatterns": ["*.config.js", "public/build/*.js"],
-  "overrides": [{ "files": "./scripts/*.ts", "env": { "node": true } }],
+  "overrides": [{ "files": "*.svelte", "processor": "svelte3/svelte3" }],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "impliedStrict": true
     },
     "project": "./tsconfig.json",
-    "sourceType": "module"
+    "sourceType": "module",
+    "extraFileExtensions": [".svelte"]
   },
-  "plugins": ["import", "prettier", "@typescript-eslint", "ts-exports"],
+  "plugins": ["import", "@typescript-eslint", "ts-exports", "svelte3"],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-empty-function": [
@@ -45,7 +47,6 @@
         ]
       }
     ],
-    "prettier/prettier": "error",
     "sort-imports": [
       "error",
       {
@@ -54,5 +55,8 @@
       }
     ],
     "ts-exports/unused-exports": "error"
+  },
+  "settings": {
+    "svelte3/typescript": true
   }
 }
