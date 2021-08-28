@@ -58,11 +58,15 @@
 <h2>2. Tracks</h2>
 <p>Find your tracks on Spotify</p>
 <Bar width={progress} error={!!error} />
-<div class="flex justify-evenly">
-  <div class="flex-1">
+<div class="flex flex-col md:flex-row justify-evenly">
+  <div class="flex-auto">
+    <p class="ta-label">Search terms for songs</p>
     <textarea rows="10" bind:value={queriesText} />
   </div>
-  <div class="flex-1">
+  <div class="hidden md:flex arrow">&rarr;</div>
+  <div class="flex md:hidden arrow">&darr;</div>
+  <div class="flex-auto">
+    <p class="ta-label">Spotify track IDs</p>
     <textarea rows="10" bind:value={tracksText} />
   </div>
 </div>
@@ -72,7 +76,16 @@
   disabled={step < 1 || (0 < progress && progress < 1)}>Find tracks</button
 >
 {#if error}
-  <p class="text-bad" transition:fade={{ duration: 200 }}>
-    {error}
-  </p>
+  <div transition:fade={{ duration: 400 }}>
+    <p class="text-bad">
+      {error}
+    </p>
+    <button
+      class="btn"
+      on:click={() => {
+        error = "";
+        step = Math.max(step, 2);
+      }}>Continue anyway</button
+    >
+  </div>
 {/if}

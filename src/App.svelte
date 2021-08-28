@@ -34,7 +34,7 @@
   });
 </script>
 
-<main class="text-center w-full">
+<main class="text-center sm:w-11/12 lg:w-5/6 mx-auto">
   <h1><a href={home}>Playlist generator</a></h1>
   <ol>
     <li>

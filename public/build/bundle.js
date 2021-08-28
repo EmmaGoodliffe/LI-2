@@ -714,8 +714,8 @@ var app = (function () {
 			: "bg-s"} w-0 h-full rounded-sm smooth`);
 
     			attr_dev(div0, "style", div0_style_value = `width: ${100 * /*width*/ ctx[0]}%`);
-    			add_location(div0, file$4, 5, 2, 166);
-    			attr_dev(div1, "class", "bg-light-s w-11/12 sm:w-5/6 md:w-1/2 h-4 mx-auto mt-6 rounded-sm");
+    			add_location(div0, file$4, 5, 2, 167);
+    			attr_dev(div1, "class", "bg-light-s w-11/12 sm:w-5/6 max-w-2xl h-4 mx-auto mt-6 rounded-sm");
     			add_location(div1, file$4, 4, 0, 85);
     		},
     		l: function claim(nodes) {
@@ -1412,46 +1412,68 @@ var app = (function () {
     const { console: console_1 } = globals;
     const file$1 = "src/Tracks.svelte";
 
-    // (67:0) {#if error}
+    // (71:0) {#if error}
     function create_if_block(ctx) {
+    	let div;
     	let p;
-    	let t;
-    	let p_transition;
+    	let t0;
+    	let t1;
+    	let button;
+    	let div_transition;
     	let current;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			p = element("p");
-    			t = text(/*error*/ ctx[4]);
+    			t0 = text(/*error*/ ctx[4]);
+    			t1 = space();
+    			button = element("button");
+    			button.textContent = "Continue anyway";
     			attr_dev(p, "class", "text-bad");
-    			add_location(p, file$1, 67, 2, 2529);
+    			add_location(p, file$1, 72, 4, 2797);
+    			attr_dev(button, "class", "btn");
+    			add_location(button, file$1, 75, 4, 2845);
+    			add_location(div, file$1, 71, 2, 2751);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, p, anchor);
-    			append_dev(p, t);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, p);
+    			append_dev(p, t0);
+    			append_dev(div, t1);
+    			append_dev(div, button);
     			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[9], false, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (!current || dirty & /*error*/ 16) set_data_dev(t, /*error*/ ctx[4]);
+    			if (!current || dirty & /*error*/ 16) set_data_dev(t0, /*error*/ ctx[4]);
     		},
     		i: function intro(local) {
     			if (current) return;
 
     			add_render_callback(() => {
-    				if (!p_transition) p_transition = create_bidirectional_transition(p, fade, { duration: 200 }, true);
-    				p_transition.run(1);
+    				if (!div_transition) div_transition = create_bidirectional_transition(div, fade, { duration: 400 }, true);
+    				div_transition.run(1);
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
-    			if (!p_transition) p_transition = create_bidirectional_transition(p, fade, { duration: 200 }, false);
-    			p_transition.run(0);
+    			if (!div_transition) div_transition = create_bidirectional_transition(div, fade, { duration: 400 }, false);
+    			div_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(p);
-    			if (detaching && p_transition) p_transition.end();
+    			if (detaching) detach_dev(div);
+    			if (detaching && div_transition) div_transition.end();
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -1459,7 +1481,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(67:0) {#if error}",
+    		source: "(71:0) {#if error}",
     		ctx
     	});
 
@@ -1469,21 +1491,29 @@ var app = (function () {
     function create_fragment$1(ctx) {
     	let h2;
     	let t1;
-    	let p;
+    	let p0;
     	let t3;
     	let bar;
     	let t4;
-    	let div2;
+    	let div4;
     	let div0;
-    	let textarea0;
-    	let t5;
-    	let div1;
-    	let textarea1;
+    	let p1;
     	let t6;
-    	let button;
+    	let textarea0;
     	let t7;
+    	let div1;
+    	let t9;
+    	let div2;
+    	let t11;
+    	let div3;
+    	let p2;
+    	let t13;
+    	let textarea1;
+    	let t14;
+    	let button;
+    	let t15;
     	let button_disabled_value;
-    	let t8;
+    	let t16;
     	let if_block_anchor;
     	let current;
     	let mounted;
@@ -1504,38 +1534,58 @@ var app = (function () {
     			h2 = element("h2");
     			h2.textContent = "2. Tracks";
     			t1 = space();
-    			p = element("p");
-    			p.textContent = "Find your tracks on Spotify";
+    			p0 = element("p");
+    			p0.textContent = "Find your tracks on Spotify";
     			t3 = space();
     			create_component(bar.$$.fragment);
     			t4 = space();
-    			div2 = element("div");
+    			div4 = element("div");
     			div0 = element("div");
-    			textarea0 = element("textarea");
-    			t5 = space();
-    			div1 = element("div");
-    			textarea1 = element("textarea");
+    			p1 = element("p");
+    			p1.textContent = "Search terms for songs";
     			t6 = space();
+    			textarea0 = element("textarea");
+    			t7 = space();
+    			div1 = element("div");
+    			div1.textContent = "→";
+    			t9 = space();
+    			div2 = element("div");
+    			div2.textContent = "↓";
+    			t11 = space();
+    			div3 = element("div");
+    			p2 = element("p");
+    			p2.textContent = "Spotify track IDs";
+    			t13 = space();
+    			textarea1 = element("textarea");
+    			t14 = space();
     			button = element("button");
-    			t7 = text("Find tracks");
-    			t8 = space();
+    			t15 = text("Find tracks");
+    			t16 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
     			add_location(h2, file$1, 50, 0, 2093);
-    			add_location(p, file$1, 51, 0, 2112);
+    			add_location(p0, file$1, 51, 0, 2112);
+    			attr_dev(p1, "class", "ta-label");
+    			add_location(p1, file$1, 55, 4, 2273);
     			attr_dev(textarea0, "rows", "10");
-    			add_location(textarea0, file$1, 55, 4, 2249);
-    			attr_dev(div0, "class", "flex-1");
-    			add_location(div0, file$1, 54, 2, 2224);
+    			add_location(textarea0, file$1, 56, 4, 2324);
+    			attr_dev(div0, "class", "flex-auto");
+    			add_location(div0, file$1, 54, 2, 2245);
+    			attr_dev(div1, "class", "hidden md:flex arrow");
+    			add_location(div1, file$1, 58, 2, 2383);
+    			attr_dev(div2, "class", "flex md:hidden arrow");
+    			add_location(div2, file$1, 59, 2, 2432);
+    			attr_dev(p2, "class", "ta-label");
+    			add_location(p2, file$1, 61, 4, 2509);
     			attr_dev(textarea1, "rows", "10");
-    			add_location(textarea1, file$1, 58, 4, 2333);
-    			attr_dev(div1, "class", "flex-1");
-    			add_location(div1, file$1, 57, 2, 2308);
-    			attr_dev(div2, "class", "flex justify-evenly");
-    			add_location(div2, file$1, 53, 0, 2188);
+    			add_location(textarea1, file$1, 62, 4, 2555);
+    			attr_dev(div3, "class", "flex-auto");
+    			add_location(div3, file$1, 60, 2, 2481);
+    			attr_dev(div4, "class", "flex flex-col md:flex-row justify-evenly");
+    			add_location(div4, file$1, 53, 0, 2188);
     			attr_dev(button, "class", "btn");
     			button.disabled = button_disabled_value = /*step*/ ctx[0] < 1 || 0 < /*progress*/ ctx[3] && /*progress*/ ctx[3] < 1;
-    			add_location(button, file$1, 61, 0, 2396);
+    			add_location(button, file$1, 65, 0, 2618);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1543,22 +1593,30 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
     			insert_dev(target, t1, anchor);
-    			insert_dev(target, p, anchor);
+    			insert_dev(target, p0, anchor);
     			insert_dev(target, t3, anchor);
     			mount_component(bar, target, anchor);
     			insert_dev(target, t4, anchor);
-    			insert_dev(target, div2, anchor);
-    			append_dev(div2, div0);
+    			insert_dev(target, div4, anchor);
+    			append_dev(div4, div0);
+    			append_dev(div0, p1);
+    			append_dev(div0, t6);
     			append_dev(div0, textarea0);
     			set_input_value(textarea0, /*queriesText*/ ctx[2]);
-    			append_dev(div2, t5);
-    			append_dev(div2, div1);
-    			append_dev(div1, textarea1);
+    			append_dev(div4, t7);
+    			append_dev(div4, div1);
+    			append_dev(div4, t9);
+    			append_dev(div4, div2);
+    			append_dev(div4, t11);
+    			append_dev(div4, div3);
+    			append_dev(div3, p2);
+    			append_dev(div3, t13);
+    			append_dev(div3, textarea1);
     			set_input_value(textarea1, /*tracksText*/ ctx[1]);
-    			insert_dev(target, t6, anchor);
+    			insert_dev(target, t14, anchor);
     			insert_dev(target, button, anchor);
-    			append_dev(button, t7);
-    			insert_dev(target, t8, anchor);
+    			append_dev(button, t15);
+    			insert_dev(target, t16, anchor);
     			if (if_block) if_block.m(target, anchor);
     			insert_dev(target, if_block_anchor, anchor);
     			current = true;
@@ -1628,14 +1686,14 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h2);
     			if (detaching) detach_dev(t1);
-    			if (detaching) detach_dev(p);
+    			if (detaching) detach_dev(p0);
     			if (detaching) detach_dev(t3);
     			destroy_component(bar, detaching);
     			if (detaching) detach_dev(t4);
-    			if (detaching) detach_dev(div2);
-    			if (detaching) detach_dev(t6);
+    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(t14);
     			if (detaching) detach_dev(button);
-    			if (detaching) detach_dev(t8);
+    			if (detaching) detach_dev(t16);
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
@@ -1754,6 +1812,11 @@ var app = (function () {
     		$$invalidate(1, tracksText);
     	}
 
+    	const click_handler = () => {
+    		$$invalidate(4, error = "");
+    		$$invalidate(0, step = Math.max(step, 2));
+    	};
+
     	$$self.$$set = $$props => {
     		if ('step' in $$props) $$invalidate(0, step = $$props.step);
     		if ('token' in $$props) $$invalidate(6, token = $$props.token);
@@ -1798,7 +1861,8 @@ var app = (function () {
     		click,
     		token,
     		textarea0_input_handler,
-    		textarea1_input_handler
+    		textarea1_input_handler,
+    		click_handler
     	];
     }
 
@@ -1923,13 +1987,13 @@ var app = (function () {
     			li2 = element("li");
     			create_component(add.$$.fragment);
     			attr_dev(a, "href", home);
-    			add_location(a, file, 39, 6, 1640);
-    			add_location(h1, file, 39, 2, 1636);
-    			add_location(li0, file, 41, 4, 1694);
-    			add_location(li1, file, 44, 4, 1744);
-    			add_location(li2, file, 47, 4, 1814);
-    			add_location(ol, file, 40, 2, 1685);
-    			attr_dev(main, "class", "text-center w-full");
+    			add_location(a, file, 39, 6, 1661);
+    			add_location(h1, file, 39, 2, 1657);
+    			add_location(li0, file, 41, 4, 1715);
+    			add_location(li1, file, 44, 4, 1765);
+    			add_location(li2, file, 47, 4, 1835);
+    			add_location(ol, file, 40, 2, 1706);
+    			attr_dev(main, "class", "text-center sm:w-11/12 lg:w-5/6 mx-auto");
     			add_location(main, file, 38, 0, 1600);
     		},
     		l: function claim(nodes) {

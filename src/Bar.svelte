@@ -3,7 +3,7 @@
   export let error = false;
 </script>
 
-<div class="bg-light-s w-11/12 sm:w-5/6 md:w-1/2 h-4 mx-auto mt-6 rounded-sm">
+<div class="bg-light-s w-11/12 sm:w-5/6 max-w-2xl h-4 mx-auto mt-6 rounded-sm">
   <div
     class={`${
       width === 1 ? (error ? "bg-bad" : "bg-good") : "bg-s"
