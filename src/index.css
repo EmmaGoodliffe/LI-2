@@ -20,7 +20,7 @@ textarea {
 }
 
 input[type="text"] {
-  @apply sm:w-1/2 max-w-md text-center text-lg;
+  @apply w-11/12 sm:w-1/2 max-w-md text-center text-lg;
 }
 
 textarea {
@@ -28,7 +28,7 @@ textarea {
 }
 
 .btn {
-  @apply my-4 px-4 py-2 bg-p rounded smooth;
+  @apply w-11/12 sm:w-1/2 md:w-auto max-w-md mx-auto my-4 px-4 py-2 bg-p rounded transition-colors duration-long;
 }
 
 .btn:disabled {
@@ -49,8 +49,4 @@ p.ta-label {
 
 .arrow {
   @apply items-center justify-center text-7xl;
-}
-
-.smooth {
-  @apply transition-all duration-700;
 }

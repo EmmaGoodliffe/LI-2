@@ -17,12 +17,16 @@
 
   const click = () => {
     progress = 0.01;
+    error = "";
     const run = async () => {
       const playlists = await api<Playlists>("me/playlists", token);
       const matchingPlaylists = playlists.items.filter(
         p => p.name === playlistName,
       );
       if (!matchingPlaylists.length) {
+        if (!playlistName.length) {
+          throw "No playlist name provided";
+        }
         throw `Couldn't find "${playlistName}"`;
       }
       const playlistId = matchingPlaylists[0].id;
@@ -48,17 +52,18 @@
   };
 </script>
 
-<h2>3. Add</h2>
+<h2>3. Update</h2>
+<p>Update a playlist to include your tracks</p>
 <Bar width={progress} error={!!error} />
 <input type="text" placeholder="Playlist name" bind:value={playlistName} />
 <br />
 <button
   class="btn"
   on:click={click}
-  disabled={step < 2 || (0 < progress && progress < 1)}>Add</button
+  disabled={step < 2 || (0 < progress && progress < 1)}>Update</button
 >
 {#if error}
-  <p class="text-bad" transition:fade={{ duration: 200 }}>
+  <p class="text-bad duration-short" transition:fade>
     {error}
   </p>
 {/if}

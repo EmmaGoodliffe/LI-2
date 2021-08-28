@@ -63,6 +63,11 @@
     <p class="ta-label">Search terms for songs</p>
     <textarea rows="10" bind:value={queriesText} />
   </div>
+  <button
+    class="btn flex-auto md:hidden"
+    on:click={click}
+    disabled={step < 1 || (0 < progress && progress < 1)}>Find tracks</button
+  >
   <div class="hidden md:flex arrow">&rarr;</div>
   <div class="flex md:hidden arrow">&darr;</div>
   <div class="flex-auto">
@@ -71,12 +76,12 @@
   </div>
 </div>
 <button
-  class="btn"
+  class="btn hidden md:inline-block"
   on:click={click}
   disabled={step < 1 || (0 < progress && progress < 1)}>Find tracks</button
 >
 {#if error}
-  <div transition:fade={{ duration: 400 }}>
+  <div class="duration-short" transition:fade>
     <p class="text-bad">
       {error}
     </p>

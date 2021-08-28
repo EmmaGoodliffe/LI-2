@@ -1,9 +1,8 @@
 <script lang="typescript">
   import { onMount } from "svelte";
-  import { writable } from "svelte/store";
-  import Add from "./Add.svelte";
   import Auth from "./Auth.svelte";
   import Tracks from "./Tracks.svelte";
+  import Update from "./Update.svelte";
 
   const home = "http://localhost:5500/public/index.html";
 
@@ -44,7 +43,7 @@
       <Tracks bind:step {token} bind:tracksText />
     </li>
     <li>
-      <Add bind:step {token} {tracksText} />
+      <Update bind:step {token} {tracksText} />
     </li>
   </ol>
 </main>

@@ -7,7 +7,7 @@
   <div
     class={`${
       width === 1 ? (error ? "bg-bad" : "bg-good") : "bg-s"
-    } w-0 h-full rounded-sm smooth`}
+    } w-0 h-full rounded-sm transition-all duration-long`}
     style={`width: ${100 * width}%`}
   />
 </div>
