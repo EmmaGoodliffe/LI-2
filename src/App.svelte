@@ -4,7 +4,7 @@
   import Tracks from "./Tracks.svelte";
   import Update from "./Update.svelte";
 
-  const home = "http://localhost:5500/public/index.html";
+  const home = "https://playlists-21.web.app";
 
   let authed = false;
   let step = 0;
