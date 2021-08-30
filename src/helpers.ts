@@ -8,10 +8,7 @@ export const clump = <T>(arr: T[], size: number) => {
   return result;
 };
 
-export const api = async <T>(
-  endPoint: string,
-  token: string,
-) => {
+export const api = async <T>(endPoint: string, token: string) => {
   const url = `https://api.spotify.com/v1/${endPoint}`;
   const response = await fetch(url, {
     headers: { Authorization: "Bearer " + token },

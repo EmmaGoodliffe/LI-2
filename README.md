@@ -1,7 +1,8 @@
-# LI-2
+# Playlists
 
-Repo for creating a playlist.
+Make large playlists easily.
 
-Playlist: [LI-2021](https://open.spotify.com/playlist/4vBb2pMSEK75a2YZGXrsXQ?si=7e4ca061a28b4923)
+Playlists made:
 
-> Soundtrack of Love Island 2021. Data from https://www.popbuzz.com/tv-film/love-island/songs-music-soundtrack-playlist-tonight-2021/
+- [LI-2021](https://open.spotify.com/playlist/4vBb2pMSEK75a2YZGXrsXQ?si=7e4ca061a28b4923)
+  > Soundtrack of Love Island 2021. Data from https://www.popbuzz.com/tv-film/love-island/songs-music-soundtrack-playlist-tonight-2021/

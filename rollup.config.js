@@ -62,10 +62,7 @@ export default {
       dedupe: ["svelte"],
     }),
     commonjs(),
-    typescript({
-      sourceMap: !production,
-      inlineSources: !production,
-    }),
+    typescript(),
     json(),
 
     // In dev mode, call `npm run start` once
